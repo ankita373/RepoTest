@@ -1,0 +1,133 @@
+{
+	"name": "DemoDelimitedText",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().fileName",
+					"type": "Expression"
+				},
+				"container": "samplefolder"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Date",
+				"type": "String"
+			},
+			{
+				"name": "Version",
+				"type": "String"
+			},
+			{
+				"name": "Brand",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "Language",
+				"type": "String"
+			},
+			{
+				"name": "offer_Id",
+				"type": "String"
+			},
+			{
+				"name": "Pack_Size",
+				"type": "String"
+			},
+			{
+				"name": "Price",
+				"type": "String"
+			},
+			{
+				"name": "offer_Size",
+				"type": "String"
+			},
+			{
+				"name": "Unit",
+				"type": "String"
+			},
+			{
+				"name": "Product",
+				"type": "String"
+			},
+			{
+				"name": "Product_Sku",
+				"type": "String"
+			},
+			{
+				"name": "Product_Variant",
+				"type": "String"
+			},
+			{
+				"name": "Product_Variant_Sku",
+				"type": "String"
+			},
+			{
+				"name": "Partner",
+				"type": "String"
+			},
+			{
+				"name": "Url",
+				"type": "String"
+			},
+			{
+				"name": "Currency",
+				"type": "String"
+			},
+			{
+				"name": "lightboxId",
+				"type": "String"
+			},
+			{
+				"name": "source",
+				"type": "String"
+			},
+			{
+				"name": "referrer",
+				"type": "String"
+			},
+			{
+				"name": "other",
+				"type": "String"
+			},
+			{
+				"name": "fallback_URL",
+				"type": "String"
+			},
+			{
+				"name": "Cookie_ID",
+				"type": "String"
+			},
+			{
+				"name": "Campaign_Reference",
+				"type": "String"
+			},
+			{
+				"name": "Keen_Id",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

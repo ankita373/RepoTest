@@ -1,0 +1,128 @@
+{
+	"name": "DemoSqlServerTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DemoSqlServer",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tableName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Date",
+				"type": "date"
+			},
+			{
+				"name": "Version",
+				"type": "varchar"
+			},
+			{
+				"name": "Brand",
+				"type": "varchar"
+			},
+			{
+				"name": "Country",
+				"type": "varchar"
+			},
+			{
+				"name": "Language",
+				"type": "varchar"
+			},
+			{
+				"name": "offer_Id",
+				"type": "varchar"
+			},
+			{
+				"name": "Pack_Size",
+				"type": "varchar"
+			},
+			{
+				"name": "Price",
+				"type": "money",
+				"precision": 19,
+				"scale": 4
+			},
+			{
+				"name": "offer_Size",
+				"type": "varchar"
+			},
+			{
+				"name": "Unit",
+				"type": "varchar"
+			},
+			{
+				"name": "Product",
+				"type": "varchar"
+			},
+			{
+				"name": "Product_Sku",
+				"type": "varchar"
+			},
+			{
+				"name": "Product_Variant",
+				"type": "varchar"
+			},
+			{
+				"name": "Product_Variant_Sku",
+				"type": "varchar"
+			},
+			{
+				"name": "Partner",
+				"type": "varchar"
+			},
+			{
+				"name": "Url",
+				"type": "varchar"
+			},
+			{
+				"name": "Currency",
+				"type": "varchar"
+			},
+			{
+				"name": "lightboxId",
+				"type": "varchar"
+			},
+			{
+				"name": "source",
+				"type": "varchar"
+			},
+			{
+				"name": "referrer",
+				"type": "varchar"
+			},
+			{
+				"name": "other",
+				"type": "varchar"
+			},
+			{
+				"name": "fallback_URL",
+				"type": "varchar"
+			},
+			{
+				"name": "Cookie_ID",
+				"type": "varchar"
+			},
+			{
+				"name": "Campaign_Reference",
+				"type": "varchar"
+			},
+			{
+				"name": "Keen_Id",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "",
+			"table": {
+				"value": "@dataset().tableName",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
