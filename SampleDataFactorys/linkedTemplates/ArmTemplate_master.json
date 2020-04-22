@@ -1,0 +1,112 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "SampleDataFactorys"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"DemoSqlServer_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'DemoSqlServer'"
+		},
+		"FileServerAmazon_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'FileServerAmazon'"
+		},
+		"HttpServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'HttpServer1'"
+		},
+		"Office3651_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'Office3651'"
+		},
+		"FileServerAmazon_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\Users"
+		},
+		"FileServerAmazon_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "XSVahadnSh"
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://atos365-my.sharepoint.com/personal/sagar_borsa_atos_net/"
+		},
+		"HttpServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sagar.borsa@atos.net"
+		},
+		"Office3651_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "b062806e-6c9d-4ae5-9737-9e1f2a7e7172"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"DemoSqlServer_connectionString": {
+						"value": "[parameters('DemoSqlServer_connectionString')]"
+					},
+					"FileServerAmazon_password": {
+						"value": "[parameters('FileServerAmazon_password')]"
+					},
+					"HttpServer1_password": {
+						"value": "[parameters('HttpServer1_password')]"
+					},
+					"Office3651_servicePrincipalKey": {
+						"value": "[parameters('Office3651_servicePrincipalKey')]"
+					},
+					"FileServerAmazon_properties_typeProperties_host": {
+						"value": "[parameters('FileServerAmazon_properties_typeProperties_host')]"
+					},
+					"FileServerAmazon_properties_typeProperties_userId": {
+						"value": "[parameters('FileServerAmazon_properties_typeProperties_userId')]"
+					},
+					"HttpServer1_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer1_properties_typeProperties_url')]"
+					},
+					"HttpServer1_properties_typeProperties_userName": {
+						"value": "[parameters('HttpServer1_properties_typeProperties_userName')]"
+					},
+					"Office3651_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('Office3651_properties_typeProperties_servicePrincipalId')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

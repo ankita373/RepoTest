@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "SampleDataFactorys"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"DemoSqlServer_connectionString": {
+			"value": ""
+		},
+		"FileServerAmazon_password": {
+			"value": ""
+		},
+		"HttpServer1_password": {
+			"value": ""
+		},
+		"Office3651_servicePrincipalKey": {
+			"value": ""
+		},
+		"FileServerAmazon_properties_typeProperties_host": {
+			"value": "C:\\Users"
+		},
+		"FileServerAmazon_properties_typeProperties_userId": {
+			"value": "XSVahadnSh"
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"value": "https://atos365-my.sharepoint.com/personal/sagar_borsa_atos_net/"
+		},
+		"HttpServer1_properties_typeProperties_userName": {
+			"value": "sagar.borsa@atos.net"
+		},
+		"Office3651_properties_typeProperties_servicePrincipalId": {
+			"value": "b062806e-6c9d-4ae5-9737-9e1f2a7e7172"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
