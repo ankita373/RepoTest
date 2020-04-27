@@ -1,0 +1,548 @@
+{
+	"name": "PriceSpider",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable redirect_date",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Redirect_Date",
+					"value": {
+						"value": "@concat('ps_nestle_redirects_',formatDateTime(adddays(utcnow(),-3),'yyyyMMdd'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Get Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [
+					{
+						"activity": "Set variable sales_date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "Blob_PriceSpider",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Set variable impression_date",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable redirect_date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Impression_Date",
+					"value": {
+						"value": "@concat('ps_nestle_product_impressions_',formatDateTime(adddays(utcnow(),-3),'yyyyMMdd'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable sales_date",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable impression_date",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Sales_Date",
+					"value": {
+						"value": "@concat('ps_nestle_salesdetail_',formatDateTime(adddays(utcnow(),-3),'yyyyMMdd'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter for redirect",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter for redirect').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink"
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"mappings": [
+										{
+											"source": {
+												"name": "account_name",
+												"type": "String"
+											},
+											"sink": {
+												"name": "account_name",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "redirect_id",
+												"type": "String"
+											},
+											"sink": {
+												"name": "redirect_id",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "config_id",
+												"type": "String"
+											},
+											"sink": {
+												"name": "config_id",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "seller_name",
+												"type": "String"
+											},
+											"sink": {
+												"name": "seller_name",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "country_code",
+												"type": "String"
+											},
+											"sink": {
+												"name": "country_code",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "product_sku",
+												"type": "String"
+											},
+											"sink": {
+												"name": "product_sku",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "product_name",
+												"type": "String"
+											},
+											"sink": {
+												"name": "product_name",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "product_model",
+												"type": "String"
+											},
+											"sink": {
+												"name": "product_model",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "product_brand",
+												"type": "String"
+											},
+											"sink": {
+												"name": "product_brand",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "utid",
+												"type": "String"
+											},
+											"sink": {
+												"name": "utid",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "ut_param",
+												"type": "String"
+											},
+											"sink": {
+												"name": "ut_param",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "referrer_url",
+												"type": "String"
+											},
+											"sink": {
+												"name": "referrer_url",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"name": "redirect_date",
+												"type": "String"
+											},
+											"sink": {
+												"name": "redirect_date",
+												"type": "DateTime"
+											}
+										},
+										{
+											"source": {
+												"name": "export_date",
+												"type": "String"
+											},
+											"sink": {
+												"name": "export_date",
+												"type": "DateTime"
+											}
+										}
+									]
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "BlobPricespiderFile",
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "PriceSpiderSqlTable",
+									"type": "DatasetReference",
+									"parameters": {
+										"tableName": "pricespider_leads"
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Filter for redirect",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata1').output.childitems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(item().name,variables('Redirect_Date'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Filter for impression",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata1').output.childitems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(item().name,variables('Impression_Date'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach2",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter for impression",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter for impression').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data2",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink"
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "BlobPricespiderFile",
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "PriceSpiderSqlTable",
+									"type": "DatasetReference",
+									"parameters": {
+										"tableName": "pricespider_impressions"
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "Filter for sales",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "ForEach2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata1').output.childitems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@startswith(item().name,variables('Sales_Date'))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach3",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter for sales",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter for sales').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy data3",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "AzureSqlSink"
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "BlobPricespiderFile",
+									"type": "DatasetReference",
+									"parameters": {
+										"FileName": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "PriceSpiderSqlTable",
+									"type": "DatasetReference",
+									"parameters": {
+										"tableName": "pricespider_sales"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"Redirect_Date": {
+				"type": "String"
+			},
+			"FileName": {
+				"type": "String"
+			},
+			"redirect": {
+				"type": "String"
+			},
+			"Impression_Date": {
+				"type": "String"
+			},
+			"Sales_Date": {
+				"type": "String"
+			},
+			"impression": {
+				"type": "String"
+			},
+			"Sales": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

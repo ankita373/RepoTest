@@ -1,0 +1,198 @@
+{
+	"name": "DemoPricespider",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 1
+								},
+								"sink": {
+									"name": "account_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 2
+								},
+								"sink": {
+									"name": "redirect_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 3
+								},
+								"sink": {
+									"name": "config_id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 4
+								},
+								"sink": {
+									"name": "seller_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 5
+								},
+								"sink": {
+									"name": "country_code",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 6
+								},
+								"sink": {
+									"name": "product_sku",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 7
+								},
+								"sink": {
+									"name": "product_name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 8
+								},
+								"sink": {
+									"name": "product_model",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 9
+								},
+								"sink": {
+									"name": "product_brand",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 11
+								},
+								"sink": {
+									"name": "utid",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 12
+								},
+								"sink": {
+									"name": "ut_param",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 14
+								},
+								"sink": {
+									"name": "referrer_url",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 15
+								},
+								"sink": {
+									"name": "redirect_date",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"type": "String",
+									"ordinal": 16
+								},
+								"sink": {
+									"name": "export_date",
+									"type": "DateTime"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DelimitedText5",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DemoSqlServerTable",
+						"type": "DatasetReference",
+						"parameters": {
+							"tableName": "pricespider_leads"
+						}
+					}
+				]
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

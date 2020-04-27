@@ -1,0 +1,299 @@
+{
+	"name": "Amazon",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Metadata1",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "BlobDataset",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata1').output.childitems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "If Condition1",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().name,'ARAP_NetPPM_US_HCN_March2020.csv')",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Copy data3",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"storeSettings": {
+													"type": "AzureBlobStorageReadSettings",
+													"recursive": true
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings"
+												}
+											},
+											"sink": {
+												"type": "SqlServerSink"
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"name": "ASIN",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ASIN",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Product Title",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ProductTitle",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Rep OOS",
+															"type": "String"
+														},
+														"sink": {
+															"name": "REPOOS",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Subcategory (Sales Rank)",
+															"type": "String"
+														},
+														"sink": {
+															"name": "Channel",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Shipped Revenue - Prior Period",
+															"type": "String"
+														},
+														"sink": {
+															"name": "TimePeriod",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Rep OOS - % of Total",
+															"type": "String"
+														},
+														"sink": {
+															"name": "SourceFileName",
+															"type": "String"
+														}
+													}
+												]
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "DelimitedTextAmazon",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": "ARAP_Retail_US_NP_Sales_Manufacturing_March2020_Premium.csv"
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "DemoSqlServerTable",
+												"type": "DatasetReference",
+												"parameters": {
+													"tableName": "ARAPREPOOS"
+												}
+											}
+										]
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "Copy data2",
+										"type": "Copy",
+										"dependsOn": [],
+										"policy": {
+											"timeout": "7.00:00:00",
+											"retry": 0,
+											"retryIntervalInSeconds": 30,
+											"secureOutput": false,
+											"secureInput": false
+										},
+										"userProperties": [],
+										"typeProperties": {
+											"source": {
+												"type": "DelimitedTextSource",
+												"storeSettings": {
+													"type": "AzureBlobStorageReadSettings",
+													"recursive": true
+												},
+												"formatSettings": {
+													"type": "DelimitedTextReadSettings"
+												}
+											},
+											"sink": {
+												"type": "SqlServerSink"
+											},
+											"enableStaging": false,
+											"translator": {
+												"type": "TabularTranslator",
+												"mappings": [
+													{
+														"source": {
+															"name": "ASIN",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ASIN",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Subcategory",
+															"type": "String"
+														},
+														"sink": {
+															"name": "Channel",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Product Title",
+															"type": "String"
+														},
+														"sink": {
+															"name": "ProductTitle",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Net PPM",
+															"type": "String"
+														},
+														"sink": {
+															"name": "NetPPM",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Net PPM - % of Total",
+															"type": "String"
+														},
+														"sink": {
+															"name": "SourceFileName",
+															"type": "String"
+														}
+													},
+													{
+														"source": {
+															"name": "Net PPM - Prior Period",
+															"type": "String"
+														},
+														"sink": {
+															"name": "TimePeriod",
+															"type": "String"
+														}
+													}
+												]
+											}
+										},
+										"inputs": [
+											{
+												"referenceName": "DelimitedTextAmazon",
+												"type": "DatasetReference",
+												"parameters": {
+													"fileName": "ARAP_NetPPM_US_HCN_March2020.csv"
+												}
+											}
+										],
+										"outputs": [
+											{
+												"referenceName": "DemoSqlServerTable",
+												"type": "DatasetReference",
+												"parameters": {
+													"tableName": "ARAPNetPPM"
+												}
+											}
+										]
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
